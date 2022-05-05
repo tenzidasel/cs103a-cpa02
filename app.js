@@ -21,6 +21,7 @@ const axios = require("axios")
 const ToDoItem = require("./models/ToDoItem")
 const Course = require('./models/Course')
 const Schedule = require('./models/Schedule')
+const Feedback = require('./models/Feedback')
 
 // *********************************************************** //
 //  Loading JSON datasets
@@ -114,7 +115,32 @@ app.get("/about", (req, res, next) => {
   res.render("about");
 });
 
+app.get("/feedbackForm", (req, res, next) => {
+  res.render("feedbackForm");
+});
 
+app.post('/feedback',
+  isLoggedIn,
+  async (req,res,next) => {
+    const{feedback}=req.body
+    const item= new Feedback({
+      userId: req.session.user._id,
+      courseName: String,
+      profName: String,
+      comment: feedback,
+      createdAt: new Date()
+    })
+    await item.save()
+    res.redirect('/feedback')
+  })
+
+  app.get('/feedback',
+    async (req,res,next)=>{
+      const items = await Feedback.find({})
+      res.json(items)
+      //res.send('under construction')
+      //res.render('overheard')
+    })
 
 /*
     ToDoList routes
