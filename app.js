@@ -125,8 +125,6 @@ app.post('/feedback',
     const{feedback}=req.body
     const item= new Feedback({
       userId: req.session.user._id,
-      courseName: String,
-      profName: String,
       comment: feedback,
       createdAt: new Date()
     })
@@ -139,7 +137,7 @@ app.post('/feedback',
       const items = await Feedback.find({})
       res.json(items)
       //res.send('under construction')
-      //res.render('overheard')
+      //res.render("feedbackForm");
     })
 
 /*
