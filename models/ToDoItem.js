@@ -7,8 +7,10 @@ var toDoItemSchema = Schema( {
   userId: ObjectId,
   title: String,
   description:String,
-  completed: Boolean,
+  profName: String,
+  courseName: String,
   createdAt: Date,
+  year:String,
 } );
 
 module.exports = mongoose.model( 'ToDoItem', toDoItemSchema );

@@ -35,9 +35,9 @@ const courses = require('./public/data/courses20-21.json')
 
 const mongoose = require( 'mongoose' );
 //const mongodb_URI = 'mongodb://localhost:27017/cs103a_todo'
-const mongodb_URI = 'mongodb+srv://cs_sj:BrandeisSpr22@cluster0.kgugl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+//const mongodb_URI = 'mongodb+srv://cs_sj:BrandeisSpr22@cluster0.kgugl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 //mongodb+srv://cs103a:<password>@cluster0.kgugl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
-
+const mongodb_URI = 'mongodb+srv://CS103a:Kushu@1663@cluster0.ho4xl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 mongoose.connect( mongodb_URI, { useNewUrlParser: true, useUnifiedTopology: true } );
 // fix deprecation warnings
 mongoose.set('useFindAndModify', false); 
@@ -143,44 +143,44 @@ app.post('/feedback',
 /*
     ToDoList routes
 */
-app.get('/todo',
+app.get('/courseFeedback',
   isLoggedIn,   // redirect to /login if user is not logged in
   async (req,res,next) => {
     try{
       let userId = res.locals.user._id;  // get the user's id
       let items = await ToDoItem.find({userId:userId}); // lookup the user's todo items
       res.locals.items = items;  //make the items available in the view
-      res.render("toDo");  // render to the toDo page
+      res.render("courseFeedback");  // render to the toDo page
     } catch (e){
       next(e);
     }
   }
   )
 
-  app.post('/todo/add',
+  app.post('/courseFeedback/add',
   isLoggedIn,
   async (req,res,next) => {
     try{
-      const {title,description} = req.body; // get title and description from the body
+      const {title,description, year, profName} = req.body; // get title and description from the body
       const userId = res.locals.user._id; // get the user's id
       const createdAt = new Date(); // get the current date/time
-      let data = {title, description, userId, createdAt,} // create the data object
+      let data = {title, description, userId, profName, year, createdAt,} // create the data object
       let item = new ToDoItem(data) // create the database object (and test the types are correct)
       await item.save() // save the todo item in the database
-      res.redirect('/todo')  // go back to the todo page
+      res.redirect('/courseFeedback')  // go back to the todo page
     } catch (e){
       next(e);
     }
   }
   )
 
-  app.get("/todo/delete/:itemId",
+  app.get("/courseFeedback/delete/:itemId",
     isLoggedIn,
     async (req,res,next) => {
       try{
         const itemId=req.params.itemId; // get the id of the item to delete
         await ToDoItem.deleteOne({_id:itemId}) // remove that item from the database
-        res.redirect('/todo') // go back to the todo page
+        res.redirect('/courseFeedback') // go back to the todo page
       } catch (e){
         next(e);
       }

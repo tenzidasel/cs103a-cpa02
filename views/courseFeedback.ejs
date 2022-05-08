@@ -1,0 +1,50 @@
+   
+        <h1 class="display-4 text-center">Evaluation/Feedback %> </h1>
+        <p class="lead text-center"> Welcome back <%= user['username'] %></p>
+        <p class="p-3 m-3 border border-primary bg-light">
+                This app allows you to record all the classes you have taken and lets you 
+                leave feedback for the class. You must signup or login for this feature. 
+        </p>
+
+                         
+    <form method="post" action="/courseFeedback/add" class="btn btn-outline-info">  
+        Enter course name :<input type="text" name="title"><br>
+        Enter Professor's Name:<input type="text" name="profName"><br>
+        Enter the semester you took this class: <select name="year">
+                <option> Freshman </option>
+                <option> Sophomore </option>
+                <option> Junior </option>
+                <option> Senior </option>
+        </select><br>
+        Enter feedback: <Br>
+        <textarea name = "description" rows="4" cols="30"></textarea> <br>
+       
+        <input type="submit" value="submit"><br>
+    </form>
+    <hr>
+    <ol>
+        <% for (item of items){%>
+            <div class="p-3 m-3 border border-primary bg-light">
+                <li class="mb-2">          
+                <b><%= item.title%>:</b>
+                <i><%= item.courseName %></i>
+                <b><%= item.profName%>,</b>
+                <b><%= item.year%></b>
+                <br>
+                <i><%= item.description %></i>
+                
+               
+                <br>
+                <%= item.createdAt %> 
+                <a href="/courseFeedback/delete/<%= item._id%>">(delete)</a>
+            </li>
+            </div>
+            
+        <% }%>
+    </ol>
+
+    <hr>
+    
+    
+
+
